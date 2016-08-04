@@ -17,6 +17,8 @@ class ViewController: UIViewController {
         //spAssistiveTouch = SPAssistiveTouch(showOnView: self.view, X: 3, Y: 100, width: 40)
         spAssistiveTouch.showInView(showOnview: self.view, X: 3, Y: 200, width: 40)
         
+        //设置圆角 默认为整个圆形
+        spAssistiveTouch.cornerRadius = 10
         //设置平常时的图片
         spAssistiveTouch.normalImage = UIImage(named: "1.jpg")
         //设置高亮时的图片
