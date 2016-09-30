@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         //是否自动停留在屏幕边缘 默认true
         spAssistiveTouch.stopScreenEdge = true
         //设置背景色 默认灰色
-        spAssistiveTouch.backColor = UIColor.redColor()
+        spAssistiveTouch.backColor = UIColor.red
         //设置停止时的透明度 默认0.5
         spAssistiveTouch.alphaForStop = 0.6
         //设置父视图是否有导航 默认为true
@@ -42,9 +42,9 @@ class ViewController: UIViewController {
          默认为1
          */
         spAssistiveTouch.alphaForlight = 0.8
-        let alert:UIAlertController = UIAlertController.init(title: "哈哈哈", message: "成功了😄", preferredStyle: .Alert)
-        alert.addAction(UIAlertAction.init(title: "好", style: .Default, handler:{Void in   }))
-        self.presentViewController(alert, animated: true, completion: { })
+        let alert:UIAlertController = UIAlertController.init(title: "哈哈哈", message: "成功了😄", preferredStyle: .alert)
+        alert.addAction(UIAlertAction.init(title: "好", style: .default, handler:{Void in   }))
+        self.present(alert, animated: true, completion: { })
         print("seccess😄")
     }
     override func didReceiveMemoryWarning() {

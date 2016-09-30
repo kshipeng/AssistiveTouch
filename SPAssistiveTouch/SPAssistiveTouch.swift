@@ -10,7 +10,7 @@ import UIKit
 
 class SPAssistiveTouch: UIView {
     
-    var backColor = UIColor.grayColor() {
+    var backColor = UIColor.gray {
         didSet {
             backgroundColor = backColor
             assistivaButton.backgroundColor = backColor
@@ -28,14 +28,14 @@ class SPAssistiveTouch: UIView {
     
     var normalImage: UIImage? {
         didSet{
-           assistivaButton.setBackgroundImage(normalImage, forState: .Normal)
+           assistivaButton.setBackgroundImage(normalImage, for: UIControlState())
             assistivaButton.layer.cornerRadius = initialFrame.size.width/2
         }
     }
     
     var lightImage: UIImage? {
         didSet{
-           assistivaButton.setBackgroundImage(lightImage, forState: .Highlighted)
+           assistivaButton.setBackgroundImage(lightImage, for: .highlighted)
             assistivaButton.layer.cornerRadius = initialFrame.size.width/2
         }
     }
@@ -63,39 +63,39 @@ class SPAssistiveTouch: UIView {
     var hasNavigationBar = true
     
     
-    private var assistivaButton: UIButton! {
+    fileprivate var assistivaButton: UIButton! {
         didSet{
         }
     }
-    private var timer = NSTimer()
-    private var initialFrame: CGRect!
-    private var parentView: UIView!
+    fileprivate var timer = Timer()
+    fileprivate var initialFrame: CGRect!
+    fileprivate var parentView: UIView!
     func showInView(showOnview viw: UIView, X: CGFloat, Y: CGFloat, width: CGFloat) {
         setupUI(viw, X: X, Y: Y, width: width)
 
     }
     
-    func add_target(target target: AnyObject?, action: Selector) {
-        assistivaButton.addTarget(target, action: action, forControlEvents: .TouchUpInside)
+    func add_target(target: AnyObject?, action: Selector) {
+        assistivaButton.addTarget(target, action: action, for: .touchUpInside)
     }
     
     init(showOnView viw: UIView, X: CGFloat, Y: CGFloat, width: CGFloat) {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         setupUI(viw, X: X, Y: Y, width: width)
         
     }
     
     init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
     }
     
-    private func setupUI(viw: UIView, X: CGFloat, Y: CGFloat, width: CGFloat) {
-        frame = CGRectMake(X, Y, width, width)
+    fileprivate func setupUI(_ viw: UIView, X: CGFloat, Y: CGFloat, width: CGFloat) {
+        frame = CGRect(x: X, y: Y, width: width, height: width)
         parentView = viw
         initialFrame = frame
         layer.cornerRadius = width/2
-        assistivaButton = UIButton(type: .Custom)
-        assistivaButton.frame = CGRectMake(0, 0, width, width)
+        assistivaButton = UIButton(type: .custom)
+        assistivaButton.frame = CGRect(x: 0, y: 0, width: width, height: width)
         assistivaButton.layer.cornerRadius = width/2
         assistivaButton.layer.masksToBounds = true
         assistivaButton.backgroundColor = backColor
@@ -108,16 +108,16 @@ class SPAssistiveTouch: UIView {
         addTimer()
     }
     
-    private func addTimer() {
-        timer = NSTimer(timeInterval: 3, target: self, selector: #selector(changeAlpha), userInfo: nil, repeats: true)
-        NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+    fileprivate func addTimer() {
+        timer = Timer(timeInterval: 3, target: self, selector: #selector(changeAlpha), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
     }
     
-    @objc private func changeAlpha() {
-        UIView.animateWithDuration(1) { 
+    @objc fileprivate func changeAlpha() {
+        UIView.animate(withDuration: 1, animations: { 
             self.alpha = self.alphaForStop
             self.assistivaButton.alpha = self.alphaForStop
-        }
+        }) 
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -125,19 +125,19 @@ class SPAssistiveTouch: UIView {
     }
     
 
-    @objc private func pan(panGesture: UIPanGestureRecognizer) {
+    @objc fileprivate func pan(_ panGesture: UIPanGestureRecognizer) {
         timer.invalidate()
         alpha = 1
         assistivaButton.alpha = 1
-        let _transX: CGFloat = panGesture.translationInView(self).x
-        let _transY: CGFloat = panGesture.translationInView(self).y
+        let _transX: CGFloat = panGesture.translation(in: self).x
+        let _transY: CGFloat = panGesture.translation(in: self).y
         var _maxY: CGFloat
         var _maxX: CGFloat
         
-        transform = CGAffineTransformTranslate(transform, _transX, _transY)
-        panGesture.setTranslation(CGPointZero, inView: self)
+        transform = transform.translatedBy(x: _transX, y: _transY)
+        panGesture.setTranslation(CGPoint.zero, in: self)
         
-        if panGesture.state == .Ended {
+        if panGesture.state == .ended {
             addTimer()
             if frame.origin.y > parentView.bounds.height - initialFrame.size.height - 3 {
                  _maxY = parentView.bounds.height - initialFrame.size.height - 3
@@ -179,9 +179,9 @@ class SPAssistiveTouch: UIView {
         
     }
     
-    private func resetFrame(x x: CGFloat, y: CGFloat, w:CGFloat, h: CGFloat) {
-        UIView.animateWithDuration(0.5, animations: {
-            self.frame = CGRectMake(x, y, w, h)
+    fileprivate func resetFrame(x: CGFloat, y: CGFloat, w:CGFloat, h: CGFloat) {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.frame = CGRect(x: x, y: y, width: w, height: h)
         })
     }
     
